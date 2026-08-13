@@ -19,7 +19,6 @@ Notes for OpenCode sessions working in this repo. Compact, repo-specific, verifi
 ## Architecture constraints (matter for correctness)
 
 - **Frontend cannot reach the Super Productivity API directly.** The API at `127.0.0.1:3876` rejects requests with a browser `Origin` header (CORS). All API calls and the token file read must go through **Rust Tauri commands**, not `fetch` from the webview.
-- Token file path (macOS): `~/Library/Application Support/Super Productivity/local-rest-api-token` (`0600`). Read from Rust, not JS.
 - API: Bearer auth on every route except `GET /health`. Endpoints used: `GET /tasks?source=all&includeDone=true`, `GET /projects`, `GET /tags`. Read-only — never POST/PUT back to Super Productivity. Full reference in `docs/api-reference.md`.
 - Sync model: **full replace** into local persistence (IndexedDB/Dexie), not delta merge. Browsing is offline after a sync.
 - Adding a new Tauri plugin or IPC command: update `src-tauri/capabilities/default.json` (currently `core:default`, `opener:default`) or the command will be denied at runtime.

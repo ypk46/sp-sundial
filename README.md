@@ -43,7 +43,7 @@ The built app appears at `src-tauri/target/release/bundle/macos/Sundial.app`.
 
 ## How It Works
 
-1. Sundial reads the Super Productivity REST API token from `~/Library/Application Support/Super Productivity/local-rest-api-token` (the Rust backend handles this automatically — no manual token entry).
+1. Sundial ask for REST API token on first startup.
 2. On sync, the Rust backend fetches tasks, projects, and tags from `127.0.0.1:3876` (the Super Productivity local REST API).
 3. The frontend normalizes the data and writes it to IndexedDB (full replace, not delta merge).
 4. All charts and views render from IndexedDB. The API is only contacted on sync.
