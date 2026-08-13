@@ -1,0 +1,8 @@
+# Pre-commit: enforce formatting before a commit lands.
+# - prettier --check on staged JS/TS/CSS/JSON/MD files (via lint-staged)
+# - cargo fmt --check on the whole Rust crate (fast at this size)
+# Failing the check blocks the commit; run the formatter and re-stage.
+
+npx lint-staged
+
+cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
