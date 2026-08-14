@@ -22,6 +22,7 @@ interface DashboardProps {
 
 export function Dashboard({ onClear }: DashboardProps) {
   const [lastSyncedAt, setLastSyncedAt] = useState<number | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [filters, setFilters] = useState<FilterState>({
     rangeSelection: 'thisWeek',
     dateRange: getPresetRange('thisWeek'),
@@ -76,13 +77,20 @@ export function Dashboard({ onClear }: DashboardProps) {
             onChange={handleTaxonomyChange}
           />
         </div>
-        <ContextMenu onSynced={setLastSyncedAt} onClearToken={onClear} />
+        <ContextMenu
+          onSynced={(ts) => {
+            setLastSyncedAt(ts);
+            setRefreshKey((k) => k + 1);
+          }}
+          onClearToken={onClear}
+        />
       </div>
 
       <MetricsRow
         range={filters.dateRange}
         selectedProjectIds={filters.selectedProjectIds}
         selectedTagIds={filters.selectedTagIds}
+        refreshKey={refreshKey}
       />
 
       <div className="px-6 py-4">
@@ -92,6 +100,7 @@ export function Dashboard({ onClear }: DashboardProps) {
               range={filters.dateRange}
               selectedProjectIds={filters.selectedProjectIds}
               selectedTagIds={filters.selectedTagIds}
+              refreshKey={refreshKey}
             />
           </ChartCard>
           <ChartCard
@@ -102,6 +111,7 @@ export function Dashboard({ onClear }: DashboardProps) {
               range={filters.dateRange}
               selectedProjectIds={filters.selectedProjectIds}
               selectedTagIds={filters.selectedTagIds}
+              refreshKey={refreshKey}
             />
           </ChartCard>
         </div>
@@ -113,6 +123,7 @@ export function Dashboard({ onClear }: DashboardProps) {
             range={filters.dateRange}
             selectedProjectIds={filters.selectedProjectIds}
             selectedTagIds={filters.selectedTagIds}
+            refreshKey={refreshKey}
           />
         </ChartCard>
       </div>

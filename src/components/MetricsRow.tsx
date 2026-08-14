@@ -13,12 +13,14 @@ interface MetricsRowProps {
   range: DateRange;
   selectedProjectIds: Set<string> | null;
   selectedTagIds: Set<string> | null;
+  refreshKey?: number;
 }
 
 export function MetricsRow({
   range,
   selectedProjectIds,
   selectedTagIds,
+  refreshKey,
 }: MetricsRowProps) {
   const [metrics, setMetrics] = useState<DashboardMetrics>(EMPTY_METRICS);
   const [loading, setLoading] = useState(true);
@@ -35,7 +37,7 @@ export function MetricsRow({
     return () => {
       cancelled = true;
     };
-  }, [range, selectedProjectIds, selectedTagIds]);
+  }, [range, selectedProjectIds, selectedTagIds, refreshKey]);
 
   return (
     <div className="flex gap-4 px-6 py-4">

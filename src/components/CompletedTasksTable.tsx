@@ -11,6 +11,7 @@ interface CompletedTasksTableProps {
   range: DateRange;
   selectedProjectIds: Set<string> | null;
   selectedTagIds: Set<string> | null;
+  refreshKey?: number;
 }
 
 function TagBadges({ tagTitles }: { tagTitles: string[] }) {
@@ -38,6 +39,7 @@ export function CompletedTasksTable({
   range,
   selectedProjectIds,
   selectedTagIds,
+  refreshKey,
 }: CompletedTasksTableProps) {
   const [rows, setRows] = useState<CompletedTaskRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,7 +58,7 @@ export function CompletedTasksTable({
     return () => {
       cancelled = true;
     };
-  }, [range, selectedProjectIds, selectedTagIds]);
+  }, [range, selectedProjectIds, selectedTagIds, refreshKey]);
 
   if (loading) {
     return (

@@ -8,6 +8,7 @@ interface ProjectDistributionChartProps {
   range: DateRange;
   selectedProjectIds: Set<string> | null;
   selectedTagIds: Set<string> | null;
+  refreshKey?: number;
 }
 
 interface TooltipEntry {
@@ -68,6 +69,7 @@ export function ProjectDistributionChart({
   range,
   selectedProjectIds,
   selectedTagIds,
+  refreshKey,
 }: ProjectDistributionChartProps) {
   const [data, setData] = useState<ProjectAggregation[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +88,7 @@ export function ProjectDistributionChart({
     return () => {
       cancelled = true;
     };
-  }, [range, selectedProjectIds, selectedTagIds]);
+  }, [range, selectedProjectIds, selectedTagIds, refreshKey]);
 
   if (loading) {
     return (

@@ -16,6 +16,7 @@ interface TimeByPeriodChartProps {
   range: DateRange;
   selectedProjectIds: Set<string> | null;
   selectedTagIds: Set<string> | null;
+  refreshKey?: number;
 }
 
 interface TooltipEntry {
@@ -49,6 +50,7 @@ export function TimeByPeriodChart({
   range,
   selectedProjectIds,
   selectedTagIds,
+  refreshKey,
 }: TimeByPeriodChartProps) {
   const [buckets, setBuckets] = useState<PeriodBucket[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +69,7 @@ export function TimeByPeriodChart({
     return () => {
       cancelled = true;
     };
-  }, [range, selectedProjectIds, selectedTagIds]);
+  }, [range, selectedProjectIds, selectedTagIds, refreshKey]);
 
   if (loading) {
     return (
