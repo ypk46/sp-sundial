@@ -7,6 +7,7 @@ import { MetricsRow } from '../components/MetricsRow';
 import { ChartCard } from '../components/ChartCard';
 import { ProjectDistributionChart } from '../components/ProjectDistributionChart';
 import { TimeByPeriodChart } from '../components/TimeByPeriodChart';
+import { CompletedTasksTable } from '../components/CompletedTasksTable';
 import {
   getPresetRange,
   type DateRange,
@@ -106,9 +107,15 @@ export function Dashboard({ onClear }: DashboardProps) {
         </div>
       </div>
 
-      <main className="flex flex-1 items-center justify-center px-6 text-center">
-        <p className="text-sm text-slate-600">More charts coming soon.</p>
-      </main>
+      <div className="px-6 pb-4">
+        <ChartCard title="Completed tasks">
+          <CompletedTasksTable
+            range={filters.dateRange}
+            selectedProjectIds={filters.selectedProjectIds}
+            selectedTagIds={filters.selectedTagIds}
+          />
+        </ChartCard>
+      </div>
 
       <footer className="flex justify-end px-6 py-3">
         <span className="text-xs text-slate-500">
