@@ -1,4 +1,5 @@
 mod settings;
+mod sync;
 
 #[cfg_attr(mobile, tauri_mobile_entry_point)]
 pub fn run() {
@@ -9,6 +10,7 @@ pub fn run() {
             settings::get_setting,
             settings::set_setting,
             settings::validate_token,
+            sync::sync_from_sp,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
