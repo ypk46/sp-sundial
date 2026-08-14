@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
-import { setSetting, SETTINGS_KEYS } from '../lib/settings';
 import { db } from '../db/db';
-import { SyncButton } from '../components/SyncButton';
+import { ContextMenu } from '../components/ContextMenu';
+import { TimeFrameFilter } from '../components/TimeFrameFilter';
+import { TaxonomyFilter } from '../components/TaxonomyFilter';
+import {
+  getPresetRange,
+  type DateRange,
+  type RangeSelection,
+} from '../lib/date-range';
+import type { FilterState } from '../types/filters';
 
 interface DashboardProps {
   onClear: () => void;
@@ -9,11 +16,12 @@ interface DashboardProps {
 
 export function Dashboard({ onClear }: DashboardProps) {
   const [lastSyncedAt, setLastSyncedAt] = useState<number | null>(null);
-
-  const handleClear = async () => {
-    await setSetting(SETTINGS_KEYS.apiToken, null);
-    onClear();
-  };
+  const [filters, setFilters] = useState<FilterState>({
+    rangeSelection: 'thisWeek',
+    dateRange: getPresetRange('thisWeek'),
+    selectedProjectIds: null,
+    selectedTagIds: null,
+  });
 
   useEffect(() => {
     db.meta.get('singleton').then((meta) => {
@@ -25,18 +33,45 @@ export function Dashboard({ onClear }: DashboardProps) {
     ? new Date(lastSyncedAt).toLocaleString()
     : 'Never synced';
 
+  const handleTimeFrameChange = (
+    selection: RangeSelection,
+    range: DateRange,
+  ) => {
+    setFilters((prev) => ({
+      ...prev,
+      rangeSelection: selection,
+      dateRange: range,
+    }));
+  };
+
+  const handleTaxonomyChange = (
+    projectIds: Set<string> | null,
+    tagIds: Set<string> | null,
+  ) => {
+    setFilters((prev) => ({
+      ...prev,
+      selectedProjectIds: projectIds,
+      selectedTagIds: tagIds,
+    }));
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between px-6 py-4">
-        <button
-          type="button"
-          onClick={handleClear}
-          className="rounded-md border border-slate-700 px-4 py-2 text-sm text-slate-300 transition hover:border-slate-500 hover:text-slate-100"
-        >
-          Clear token
-        </button>
-        <SyncButton onSynced={setLastSyncedAt} />
-      </header>
+      <div className="flex items-center justify-between gap-3 border-b border-slate-800 px-6 py-3">
+        <div className="flex items-center gap-3">
+          <TimeFrameFilter
+            rangeSelection={filters.rangeSelection}
+            dateRange={filters.dateRange}
+            onChange={handleTimeFrameChange}
+          />
+          <TaxonomyFilter
+            selectedProjectIds={filters.selectedProjectIds}
+            selectedTagIds={filters.selectedTagIds}
+            onChange={handleTaxonomyChange}
+          />
+        </div>
+        <ContextMenu onSynced={setLastSyncedAt} onClearToken={onClear} />
+      </div>
 
       <main className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
         <h1 className="text-2xl font-semibold text-sky-300">Sundial</h1>
