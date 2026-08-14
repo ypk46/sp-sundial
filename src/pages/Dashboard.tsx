@@ -4,6 +4,8 @@ import { ContextMenu } from '../components/ContextMenu';
 import { TimeFrameFilter } from '../components/TimeFrameFilter';
 import { TaxonomyFilter } from '../components/TaxonomyFilter';
 import { MetricsRow } from '../components/MetricsRow';
+import { ChartCard } from '../components/ChartCard';
+import { ProjectDistributionChart } from '../components/ProjectDistributionChart';
 import {
   getPresetRange,
   type DateRange,
@@ -80,8 +82,20 @@ export function Dashboard({ onClear }: DashboardProps) {
         selectedTagIds={filters.selectedTagIds}
       />
 
+      <div className="px-6 py-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <ChartCard title="Project distribution" className="lg:col-span-1">
+            <ProjectDistributionChart
+              range={filters.dateRange}
+              selectedProjectIds={filters.selectedProjectIds}
+              selectedTagIds={filters.selectedTagIds}
+            />
+          </ChartCard>
+        </div>
+      </div>
+
       <main className="flex flex-1 items-center justify-center px-6 text-center">
-        <p className="text-sm text-slate-600">Charts coming soon.</p>
+        <p className="text-sm text-slate-600">More charts coming soon.</p>
       </main>
 
       <footer className="flex justify-end px-6 py-3">
