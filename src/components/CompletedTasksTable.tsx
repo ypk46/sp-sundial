@@ -75,7 +75,7 @@ export function CompletedTasksTable({
   }
 
   return (
-    <div className="max-h-[400px] overflow-y-auto overflow-x-auto">
+    <div className="max-h-[300px] overflow-y-auto overflow-x-auto">
       <table className="w-full border-collapse">
         <thead className="sticky top-0 z-10 bg-slate-900">
           <tr className="border-b border-slate-800">
