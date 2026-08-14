@@ -6,3 +6,13 @@ export function formatMs(ms: number): string {
   if (minutes === 0) return `${hours}h`;
   return `${hours}h ${String(minutes).padStart(2, '0')}m`;
 }
+
+export function formatHours(ms: number): string {
+  const hours = ms / 3600000;
+  return `${hours.toFixed(1)}h`;
+}
+
+export function formatMinutes(ms: number): string {
+  const minutes = ms / 60000;
+  return `${Math.round(minutes)}m`;
+}

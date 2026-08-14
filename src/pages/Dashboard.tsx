@@ -6,11 +6,13 @@ import { TaxonomyFilter } from '../components/TaxonomyFilter';
 import { MetricsRow } from '../components/MetricsRow';
 import { ChartCard } from '../components/ChartCard';
 import { ProjectDistributionChart } from '../components/ProjectDistributionChart';
+import { TimeByPeriodChart } from '../components/TimeByPeriodChart';
 import {
   getPresetRange,
   type DateRange,
   type RangeSelection,
 } from '../lib/date-range';
+import { getGranularity } from '../lib/by-period';
 import type { FilterState } from '../types/filters';
 
 interface DashboardProps {
@@ -86,6 +88,16 @@ export function Dashboard({ onClear }: DashboardProps) {
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <ChartCard title="Project distribution" className="lg:col-span-1">
             <ProjectDistributionChart
+              range={filters.dateRange}
+              selectedProjectIds={filters.selectedProjectIds}
+              selectedTagIds={filters.selectedTagIds}
+            />
+          </ChartCard>
+          <ChartCard
+            title={`Time per ${getGranularity(filters.dateRange)}`}
+            className="lg:col-span-2"
+          >
+            <TimeByPeriodChart
               range={filters.dateRange}
               selectedProjectIds={filters.selectedProjectIds}
               selectedTagIds={filters.selectedTagIds}
