@@ -3,6 +3,7 @@ import { db } from '../db/db';
 import { ContextMenu } from '../components/ContextMenu';
 import { TimeFrameFilter } from '../components/TimeFrameFilter';
 import { TaxonomyFilter } from '../components/TaxonomyFilter';
+import { MetricsRow } from '../components/MetricsRow';
 import {
   getPresetRange,
   type DateRange,
@@ -73,9 +74,14 @@ export function Dashboard({ onClear }: DashboardProps) {
         <ContextMenu onSynced={setLastSyncedAt} onClearToken={onClear} />
       </div>
 
-      <main className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
-        <h1 className="text-2xl font-semibold text-sky-300">Sundial</h1>
-        <p className="text-sm text-slate-400">Dashboard coming soon.</p>
+      <MetricsRow
+        range={filters.dateRange}
+        selectedProjectIds={filters.selectedProjectIds}
+        selectedTagIds={filters.selectedTagIds}
+      />
+
+      <main className="flex flex-1 items-center justify-center px-6 text-center">
+        <p className="text-sm text-slate-600">Charts coming soon.</p>
       </main>
 
       <footer className="flex justify-end px-6 py-3">
