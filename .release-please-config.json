@@ -1,0 +1,22 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "changelog-path": "CHANGELOG.md",
+      "include-component-in-tag": false,
+      "tag-separator": "v",
+      "extra-files": ["src-tauri/Cargo.toml", "src-tauri/tauri.conf.json"]
+    }
+  },
+  "changelog-sections": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "perf", "section": "Performance" },
+    { "type": "refactor", "section": "Refactors" },
+    { "type": "docs", "section": "Documentation" },
+    { "type": "test", "section": "Tests" },
+    { "type": "ci", "section": "CI" },
+    { "type": "chore", "section": "Misc" },
+    { "type": "build", "section": "Misc" }
+  ]
+}
