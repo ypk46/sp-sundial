@@ -56,22 +56,24 @@ jobs:
 
       # Resolve the release id: use the release event payload when triggered by
       # release-please, otherwise look up the release by tag from a dispatch.
-      - name: Resolve release id
-        id: release
+      - name: Resolve release id (release event)
+        id: release-event
+        if: github.event_name == 'release'
+        run: echo "id=${{ github.event.release.id }}" >> "$GITHUB_OUTPUT"
         shell: bash
+
+      - name: Resolve release id (dispatch)
+        id: release-dispatch
+        if: github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISPATCH_TAG: ${{ inputs.tag }}
-        run: |
-          if [ -n "${{ github.event.release.id }}" ]; then
-            echo "id=${{ github.event.release.id }}" >> "$GITHUB_OUTPUT"
-          elif [ -n "$DISPATCH_TAG" ]; then
-            RID=$(gh release view "$DISPATCH_TAG" --json id --jq '.id')
-            echo "id=$RID" >> "$GITHUB_OUTPUT"
-          else
-            echo "No release id and no tag input — cannot attach artifacts." >&2
-            exit 1
-          fi
+        run: echo "id=$(gh release view '${{ inputs.tag }}' --json id --jq '.id')" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Combine release id
+        id: release
+        run: echo "id=${{ steps.release-event.outputs.id || steps.release-dispatch.outputs.id }}" >> "$GITHUB_OUTPUT"
+        shell: bash
 
       - uses: tauri-apps/tauri-action@v1
         env:
