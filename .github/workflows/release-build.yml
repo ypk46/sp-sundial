@@ -67,7 +67,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: echo "id=$(gh release view '${{ inputs.tag }}' --json id --jq '.id')" >> "$GITHUB_OUTPUT"
+        run: echo "id=$(gh api repos/${{ github.repository }}/releases/tags/${{ inputs.tag }} --jq '.id')" >> "$GITHUB_OUTPUT"
         shell: bash
 
       - name: Combine release id
