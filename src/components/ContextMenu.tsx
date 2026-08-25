@@ -1,19 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
-import { MoreVertical, RefreshCw } from 'lucide-react';
-import { syncFromSuperProductivity, SyncError } from '../lib/sync';
+import { MoreVertical, RefreshCw, Trash2 } from 'lucide-react';
+import { syncFromSuperProductivity, clearDb, SyncError } from '../lib/sync';
 import { setSetting, SETTINGS_KEYS } from '../lib/settings';
+import { ConfirmDialog } from './ConfirmDialog';
 
 interface ContextMenuProps {
   onSynced: (lastSyncedAt: number) => void;
   onClearToken: () => void;
+  onClearDb: () => void;
 }
 
-export function ContextMenu({ onSynced, onClearToken }: ContextMenuProps) {
+export function ContextMenu({
+  onSynced,
+  onClearToken,
+  onClearDb,
+}: ContextMenuProps) {
   const [open, setOpen] = useState(false);
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'error'>(
     'idle',
   );
   const [errorMessage, setErrorMessage] = useState('');
+  const [confirmClearDb, setConfirmClearDb] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,6 +56,13 @@ export function ContextMenu({ onSynced, onClearToken }: ContextMenuProps) {
     onClearToken();
   };
 
+  const handleClearDb = async () => {
+    setConfirmClearDb(false);
+    setOpen(false);
+    await clearDb();
+    onClearDb();
+  };
+
   return (
     <div ref={ref} className="relative flex flex-col items-end gap-1">
       <button
@@ -81,8 +95,29 @@ export function ContextMenu({ onSynced, onClearToken }: ContextMenuProps) {
           >
             Clear token
           </button>
+          <div className="my-1 border-t border-slate-700" />
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              setConfirmClearDb(true);
+            }}
+            className="flex w-full items-center gap-2 rounded px-3 py-2 text-sm text-red-400 transition hover:bg-slate-800"
+          >
+            <Trash2 className="h-4 w-4" />
+            Clear DB
+          </button>
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmClearDb}
+        title="Clear database?"
+        message="This will remove all locally cached tasks, projects, and tags. You will need to re-sync to repopulate the data."
+        confirmLabel="Clear DB"
+        onConfirm={handleClearDb}
+        onCancel={() => setConfirmClearDb(false)}
+      />
 
       {syncStatus === 'error' && errorMessage && (
         <span className="max-w-xs text-right text-xs text-red-400">

@@ -97,3 +97,19 @@ export async function syncFromSuperProductivity(): Promise<SyncOutcome> {
     lastSyncedAt,
   };
 }
+
+export async function clearDb(): Promise<void> {
+  await db.transaction(
+    'rw',
+    db.tasks,
+    db.projects,
+    db.tags,
+    db.meta,
+    async () => {
+      await db.tasks.clear();
+      await db.projects.clear();
+      await db.tags.clear();
+      await db.meta.clear();
+    },
+  );
+}

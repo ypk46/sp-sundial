@@ -83,6 +83,10 @@ export function Dashboard({ onClear }: DashboardProps) {
             setRefreshKey((k) => k + 1);
           }}
           onClearToken={onClear}
+          onClearDb={() => {
+            setLastSyncedAt(null);
+            setRefreshKey((k) => k + 1);
+          }}
         />
       </div>
 
