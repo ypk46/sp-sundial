@@ -33,6 +33,16 @@ I use [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fi
 
 Releases are automated: when enough changes accumulate, a release PR is prepared automatically, I merge it, and binaries for macOS, Windows, and Linux are built and published to the [Releases page](https://github.com/ypk46/sp-sundial/releases).
 
+### Versioning
+
+Sundial follows [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`):
+
+- **PATCH** — bug fixes, no behavior change (`fix:`)
+- **MINOR** — new features, backwards compatible (`feat:`)
+- **MAJOR** — incompatible changes (`feat!:` / `BREAKING CHANGE:` footer)
+
+The single source of truth for the version is **`package.json`**. release-please bumps it there and propagates the new version to `src-tauri/Cargo.toml` and `src-tauri/tauri.conf.json` via its `extra-files` config. A local convenience script `npm run sync-version` copies `package.json`'s version into the other two files if they ever drift — run it after hand-editing a version.
+
 ## Security
 
 Found a security issue? Please don't open a public issue. See [SECURITY.md](./SECURITY.md) for how to report it privately.

@@ -2,7 +2,7 @@
 name = "sp-sundial"
 version = "0.1.0"
 description = "Time analytics dashboard for Super Productivity"
-authors = ["you"]
+authors = ["Yuyi Kimura"]
 edition = "2021"
 
 [lib]
