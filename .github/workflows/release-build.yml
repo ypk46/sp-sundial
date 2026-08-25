@@ -58,6 +58,7 @@ jobs:
       # release-please, otherwise look up the release by tag from a dispatch.
       - name: Resolve release id
         id: release
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISPATCH_TAG: ${{ inputs.tag }}
