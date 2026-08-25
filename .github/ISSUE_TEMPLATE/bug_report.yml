@@ -1,0 +1,63 @@
+name: Bug report
+description: Report something that isn't working as expected in Sundial
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report! Please fill out the fields below so it can be reproduced quickly.
+
+        Search existing issues first to avoid duplicates: https://github.com/ypk46/sp-sundial/issues?q=is%3Aissue+label%3Abug
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected to happen instead.
+      placeholder: 'When I do X, I expect Y, but instead I see Z...'
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: A minimal set of steps that reliably triggers the bug.
+      placeholder: |
+        1. Open Sundial
+        2. Click "Sync"
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: sundial-version
+    attributes:
+      label: Sundial version
+      description: Found in the app window title or the About screen. Use "unknown" if you can't find it.
+      placeholder: '0.1.0'
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: Include the OS version and architecture if relevant.
+      placeholder: 'macOS 15.2 (Apple Silicon), Windows 11, Ubuntu 24.04'
+    validations:
+      required: true
+  - type: input
+    id: sp-version
+    attributes:
+      label: Super Productivity version
+      description: The Super Productivity desktop app version you're syncing from.
+      placeholder: '12.x.x'
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: |
+        Paste any relevant log output or drag in screenshots.
+        No private data please — if the log contains your API token, redact it before pasting.
+      render: shell
+    validations:
+      required: false

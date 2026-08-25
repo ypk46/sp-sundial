@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/ypk46/sp-sundial/security/advisories/new
+    about: Found a security issue? Please report it privately via GitHub's security advisory, not as a public issue.
+  - name: Question or discussion
+    url: https://github.com/ypk46/sp-sundial/discussions
+    about: For questions or general discussion, start a discussion (if enabled) or open a question issue.
